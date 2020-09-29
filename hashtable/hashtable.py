@@ -117,8 +117,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        if self.hTable[self.hash_index(key)]:
-            return self.hTable[self.hash_index(key)].value
+        #if self.hTable[self.hash_index(key)]:
+        return self.hTable[self.hash_index(key)].value
 
 
     def resize(self, new_capacity):
