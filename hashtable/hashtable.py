@@ -25,7 +25,9 @@ class HashTable:
 
         self.capacity = capacity
         self.hTable = [None] * capacity
-        # self.items = 0
+
+        # Counter
+        self.items = 0
 
 
     def get_num_slots(self):
@@ -70,8 +72,11 @@ class HashTable:
         """
         # Your code here
         hash = 5381
+        # print(f"Initial hash value: {hash}")
         for i in key:
-            hash = ((hash << 5) + hash) + ord(i)
+            # hash = ((hash << 5) + hash) + ord(i)
+            hash = (hash * 33) + ord(i) # both this and the line above works the same
+            # print(f"Loop: ord(i) = {ord(i)}, hash value = {hash}")
         return hash & 0xffffffff
 
 
@@ -92,7 +97,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        self.hTable[self.hash_index(key)] = HashTableEntry(key, value)
+        hIndex = self.hash_index(key)
+        self.hTable[hIndex] = HashTableEntry(key, value)
 
 
     def delete(self, key):
@@ -104,8 +110,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # self.hTable[self.hash_index(key)] = None
-        self.put(key, None)
+        hIndex = self.hash_index(key)
+        self.hTable[hIndex] = HashTableEntry(key, None)
 
 
     def get(self, key):
@@ -117,8 +123,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        #if self.hTable[self.hash_index(key)]:
-        return self.hTable[self.hash_index(key)].value
+        hIndex = self.hash_index(key)
+        val = self.hTable[hIndex].value
+        return val
 
 
     def resize(self, new_capacity):
