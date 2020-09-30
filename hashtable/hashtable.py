@@ -22,12 +22,15 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-
         self.capacity = capacity
         self.hTable = [None] * capacity
 
         # Counter
         self.items = 0
+
+    # def insert_at_head(self, node):
+    #     node.next = self.head
+    #     self.head = node
 
 
     def get_num_slots(self):
@@ -97,8 +100,35 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # Day 1
+        # hIndex = self.hash_index(key)
+        # self.hTable[hIndex] = HashTableEntry(key, value)
+
+        # Day 2
         hIndex = self.hash_index(key)
-        self.hTable[hIndex] = HashTableEntry(key, value)
+        if self.hTable[hIndex] == None:
+            # There are no entries here, so we could place one here
+            self.hTable[hIndex] = HashTableEntry(key, value)
+            self.items += 1 # Increment count to show we added an item where there was previously None
+        else:
+            prev = None
+            cur = self.hTable[hIndex]
+
+            while cur != None:
+                if cur.key == key:
+                    # Found given key, store value
+                    cur.value = value
+                    return
+                # Didn't find key at current position, move prev & cur by one
+                prev = cur
+                cur = cur.next
+            # Out of while-loop, so we must've found the right key. Have prev point to the new value as the next one in Linked List
+            prev.next = HashTableEntry(key, value)
+            self.items += 1
+
+        # Outside of if-else. Now check if added value requires a resize
+        if self.get_load_factor() >= 0.7:
+            self.resize(self.capacity * 2)
 
 
     def delete(self, key):
@@ -110,8 +140,50 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # Day 1
+        # hIndex = self.hash_index(key)
+        # self.hTable[hIndex] = HashTableEntry(key, None)
+
+        # Day 2
         hIndex = self.hash_index(key)
-        self.hTable[hIndex] = HashTableEntry(key, None)
+        # print(f"DEL -- index = {hIndex}, key = {key}, value = {self.hTable[hIndex].value}")
+
+        if self.hTable[hIndex] == None:
+            # Empty table
+            return "Entered key was not found"
+        elif self.hTable[hIndex].key == key:
+            # I created this because there was some issue with initializing prev = None in the else-statement below
+            # It created an error inside the if cur.key == key statement below. As you can see, I tried multiple ways to fix it to no avail
+            # This elif I created is a workaround
+            self.hTable[hIndex] = self.hTable[hIndex].next
+            self.items -= 1
+        else:
+            prev = None
+            cur = self.hTable[hIndex]
+            # print(f"DEL outisde While: cur.key = {cur.key}")
+
+            while cur != None:
+                # print(f"DEL inside While: cur.key = {cur.key}, key = {key}")
+                if cur.key == key:
+                    # print(f"DEL If-statement: cur.key = {cur.key}, key = {key}")
+                    if prev != None:
+                        prev.next == cur.next
+                    # Still getting issues after addressing prev = None, trying to manually set cur to None (delete)
+                    cur = HashTableEntry(key, None)
+                    # Okay, still getting errors. Try removing cur.next
+                    cur.next = None
+                    self.items -= 1
+                    return
+                prev = cur
+                cur = cur.next
+                # print(f"DEL skipped if: new cur.key = {cur.key}")
+                if cur == None:
+                    return "Key wasn't found in table."
+
+        if self.get_load_factor() < 0.2 and self.capacity > MIN_CAPACITY:
+            # I should never have to worry about creating conditionals to check capacity > MIN and capacity/2 < MIN
+            # since the root capacity value is 2^x. In this case, 2^3 = 8
+            self.resize(self.capacity // 2)
 
 
     def get(self, key):
@@ -123,8 +195,21 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # Day 1
+        # hIndex = self.hash_index(key)
+        # val = self.hTable[hIndex].value
+        # return val
+
+        # Day 2
         hIndex = self.hash_index(key)
-        val = self.hTable[hIndex].value
+        cur = self.hTable[hIndex]
+        val = None # Initialization. Will return None if val doesn't get replaced in loop below
+        while cur != None:
+            if cur.key == key:
+                # Found It!
+                val = cur.value
+                break
+            cur = cur.next
         return val
 
 
@@ -136,6 +221,23 @@ class HashTable:
         Implement this.
         """
         # Your code here
+
+        # M-2
+        # Create temporary table of hTable
+        currTable = self.hTable.copy()
+        # Change capacity amount
+        self.capacity = new_capacity
+        # Now that hTable is stored in a temp, re-map hTable with the new capacity
+        self.hTable = [None] * new_capacity
+        self.items = 0 # resetting the counter
+
+        for obj in currTable:
+            if obj != None:
+                # Stored obj into a temp to use in the while-loop below without affecting obj
+                currObj = obj
+                while currObj != None:
+                    self.put(currObj.key, currObj.value)
+                    currObj = currObj.next
 
 
 
