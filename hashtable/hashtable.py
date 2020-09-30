@@ -222,7 +222,6 @@ class HashTable:
         """
         # Your code here
 
-        # M-2
         # Create temporary table of hTable
         currTable = self.hTable.copy()
         # Change capacity amount
@@ -232,10 +231,12 @@ class HashTable:
         self.items = 0 # resetting the counter
 
         for obj in currTable:
+            print(f"FOR OBJ: key = {obj.key}, value = {obj.value}")
             if obj != None:
                 # Stored obj into a temp to use in the while-loop below without affecting obj
                 currObj = obj
                 while currObj != None:
+                    print(f"WHILE CURROBJ: key = {currObj.key}, value = {currObj.value}")
                     self.put(currObj.key, currObj.value)
                     currObj = currObj.next
 
