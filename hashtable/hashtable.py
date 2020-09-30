@@ -127,7 +127,9 @@ class HashTable:
             self.items += 1
 
         # Outside of if-else. Now check if added value requires a resize
+        print(f"PUT: load factor = {self.get_load_factor()}")
         if self.get_load_factor() >= 0.7:
+            print(f"PUT (IF): load factor = {self.get_load_factor()}, cap = {self.capacity}")
             self.resize(self.capacity * 2)
 
 
@@ -180,7 +182,9 @@ class HashTable:
                 if cur == None:
                     return "Key wasn't found in table."
 
+        print(f"DEL: load factor = {self.get_load_factor()}")
         if self.get_load_factor() < 0.2 and self.capacity > MIN_CAPACITY:
+            print(f"DEL (IF): load factor = {self.get_load_factor()}, cap = {self.capacity}")
             # I should never have to worry about creating conditionals to check capacity > MIN and capacity/2 < MIN
             # since the root capacity value is 2^x. In this case, 2^3 = 8
             self.resize(self.capacity // 2)
@@ -221,22 +225,22 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
         # Create temporary table of hTable
-        currTable = self.hTable.copy()
+        currTable = self.hTable
         # Change capacity amount
         self.capacity = new_capacity
         # Now that hTable is stored in a temp, re-map hTable with the new capacity
         self.hTable = [None] * new_capacity
-        self.items = 0 # resetting the counter
+        #self.items = 0 # resetting the counter
 
+        #print(f"Resize: new_cap = {new_capacity}")
         for obj in currTable:
-            print(f"FOR OBJ: key = {obj.key}, value = {obj.value}")
+            #print(f"FOR OBJ: key = {obj.key}, value = {obj.value}")
             if obj != None:
                 # Stored obj into a temp to use in the while-loop below without affecting obj
                 currObj = obj
                 while currObj != None:
-                    print(f"WHILE CURROBJ: key = {currObj.key}, value = {currObj.value}")
+                    #print(f"WHILE CURROBJ: key = {currObj.key}, value = {currObj.value}")
                     self.put(currObj.key, currObj.value)
                     currObj = currObj.next
 

@@ -8,6 +8,7 @@ class TestHashTable(unittest.TestCase):
     def test_hash_table_insertion_and_retrieval(self):
         ht = HashTable(8)
 
+        print("TEST 1 -- PUTTING 10 items")
         ht.put("key-0", "val-0")
         ht.put("key-1", "val-1")
         ht.put("key-2", "val-2")
@@ -43,6 +44,7 @@ class TestHashTable(unittest.TestCase):
     def test_hash_table_pution_overwrites_correctly(self):
         ht = HashTable(8)
 
+        print("TEST 2A -- PUTTING 10 items")
         ht.put("key-0", "val-0")
         ht.put("key-1", "val-1")
         ht.put("key-2", "val-2")
@@ -54,6 +56,7 @@ class TestHashTable(unittest.TestCase):
         ht.put("key-8", "val-8")
         ht.put("key-9", "val-9")
 
+        print("TEST 2B -- PUTTING 10 new items")
         ht.put("key-0", "new-val-0")
         ht.put("key-1", "new-val-1")
         ht.put("key-2", "new-val-2")
@@ -89,6 +92,7 @@ class TestHashTable(unittest.TestCase):
     def test_hash_table_removes_correctly(self):
         ht = HashTable(8)
 
+        print("TEST 3A -- PUTTING 10 items")
         ht.put("key-0", "val-0")
         ht.put("key-1", "val-1")
         ht.put("key-2", "val-2")
@@ -121,6 +125,7 @@ class TestHashTable(unittest.TestCase):
         return_value = ht.get("key-9")
         self.assertTrue(return_value == "val-9")
 
+        print("TEST 3B -- DELETING 8 items")
         ht.delete("key-7")
         ht.delete("key-6")
         ht.delete("key-5")
@@ -151,6 +156,7 @@ class TestHashTable(unittest.TestCase):
         return_value = ht.get("key-9")
         self.assertTrue(return_value is "val-9")
 
+        print("TEST 3C -- DELETING 2 items")
         ht.delete("key-9")
         ht.delete("key-8")
 
