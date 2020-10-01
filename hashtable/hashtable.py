@@ -233,14 +233,14 @@ class HashTable:
         self.hTable = [None] * new_capacity
         #self.items = 0 # resetting the counter
 
-        #print(f"Resize: new_cap = {new_capacity}")
+        print(f"Resize: new_cap = {new_capacity}")
         for obj in currTable:
-            #print(f"FOR OBJ: key = {obj.key}, value = {obj.value}")
+            # print(f"FOR OBJ: key = {obj.key}, value = {obj.value}")
             if obj != None:
                 # Stored obj into a temp to use in the while-loop below without affecting obj
                 currObj = obj
                 while currObj != None:
-                    #print(f"WHILE CURROBJ: key = {currObj.key}, value = {currObj.value}")
+                    print(f"WHILE CURROBJ: key = {currObj.key}, value = {currObj.value}")
                     self.put(currObj.key, currObj.value)
                     currObj = currObj.next
 
